@@ -1,0 +1,31 @@
+<html>
+    <head> <title>Issues</title> </head>
+    <body>
+    <table border='1'>
+        <tr>
+        <th>id</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>State</th>
+        <th>Last Update</th>
+        </tr>
+        <% count = Issue.find(:all).count %>
+        <%   @id = 1 %>
+        <%   for @id in 1 .. count %>
+        <%  issue = Issue.find(@id)%>
+        <tr>
+        <td><%= issue.id %></td>
+        <td><%= issue.title %></td>
+        <td><%= issue.description %></td>
+        <td><%= issue.state %></td>
+        <td><%= issue.date %></td>
+        <% end %>
+        </tr>
+      </table>
+      </body>
+
+      <a href="/">Add more issue</a>
+
+
+
+</html>
