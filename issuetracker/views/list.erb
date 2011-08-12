@@ -1,31 +1,37 @@
 <html>
     <head> <title>Issues</title> </head>
     <body>
+      <center>
     <table border='1'>
         <tr>
         <th>id</th>
         <th>Title</th>
         <th>Description</th>
         <th>State</th>
+        <th>Create at</th>
         <th>Last Update</th>
         </tr>
-        <% count = Issue.find(:all).count %>
-        <%   @id = 1 %>
-        <%   for @id in 1 .. count %>
-        <%  issue = Issue.find(@id)%>
+        
+ 
+        <%   Issue.all.each do |issue_order| %>
         <tr>
-        <td><%= issue.id %></td>
-        <td><%= issue.title %></td>
-        <td><%= issue.description %></td>
-        <td><%= issue.state %></td>
-        <td><%= issue.date %></td>
+        <td><%= issue_order.id %></td>
+        <td><%= issue_order.title %></td>
+        <td><%= issue_order.description %></td>
+        <td><%= issue_order.state %></td>
+        <td><%= issue_order.created_at.try(:strftime, "%a,%d/%m/%Y") %></td>
+        <td><%= issue_order.updated_at.try(:strftime, "%a,%d/%m/%Y") %> </td>
         <% end %>
         </tr>
       </table>
-      </body>
-
       <a href="/">Add more issue</a>
-
-
-
+      <p> OR </p>
+      <p> Login to Edit</p>
+      <form action="/login" method="POST">
+        User Name: <input type="text" name="username" />
+        Password : <input type="text" name="password"/>
+        <input type="submit"  value="Submit"/>
+      </form>
+      </center>
+        </body>
 </html>

@@ -1,11 +1,7 @@
 require "sinatra"
-require '/home/jason/git/issuetracker/display.rb'
-require '/home/jason/git/issuetracker/readin.rb'
+require './issue.rb'
 require 'erb'
-
-
-show = Display.new
-time = Time.new
+require 'time'
 
 get '/' do
   erb :home
@@ -16,28 +12,35 @@ post '/prosess' do
 	'<center>please enter title<center/>
     <a href="/">Try again</a>'
   else
-    @title = params[:title]
-    @description = params[:description]
-    @stateinnumber = params[:RadioGroup]
-
-    if params[:RadioGroup].to_i == 1
-      @state = "Open"
-    elsif params[:RadioGroup].to_i == 2
-      @state = "In-Process"
-    elsif params[:RadioGroup].to_i == 3
-      @state = "Close"
-    end
-    @date = time.getlocal
-    @id = Issue.find(:all).count + 1
-
-  
-   Issue.create(:title => @title, :description => @description, :state => @state , :date => @date)
+   Issue.create(params)#.slice(:title,:description,:state))
    erb :list
- 
 	end
-
-
 end
+
+post '/login' do
+# authorise function
+#  @username = params[:username]
+#  @password = params[:password]
+erb :logedin
+end
+
+post '/result' do
+  options = ['Open','In-Progress','Close']
+  if params[:action] == "delete" #For Delete option
+    Issue.delete(params[:id])
+    erb :logedin
+  elsif params[:action] == "update" and options.each { |state| } #for update
+    record = Issue.find(params[:id])
+    
+    if record.update_attributes(:title => params[:title], :description =>params[:description], :state => params[:dropbox], :updated_at => Time.now )
+      erb :logedin
+    end
+  else
+    "update and delete allowed"
+  end
+end
+  
+
 
 
 

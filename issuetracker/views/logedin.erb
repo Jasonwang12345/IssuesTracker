@@ -1,0 +1,56 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<html>
+    <head> <title>Issues</title> </head>
+    <body>
+      <center>
+    <table border='1'>
+        <tr>
+        <th>id</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>State</th>
+        <th>Created Time</th>
+        <th>Last Update</th>
+        </tr>
+        <%  Issue.all.each do |issue| %>
+        <tr>
+        <td><%= issue.id %></td>
+        <td><%= issue.title %></td>
+        <td><%= issue.description %></td>
+        <td><%= issue.state %></td>
+        <td><%= issue.created_at.try(:strftime, "%a,%d/%m/%Y")%> </td>
+        <td><%= issue.updated_at.try(:strftime, "%a,%d/%m/%Y") %></td>
+        <% end %>
+        </tr>
+      </table>
+    </center>
+      <br>&nbsp;<br><br>&nbsp;<br>
+      <center>
+      <form action="/result" method="POST">
+        ID: <input type="text" name="id" />
+        Title: <input type="text" name="title" />
+        Description: <input type="text" name="description" />
+          <%#*#Open','In-progress','Close%>
+        State: <select name="dropbox">
+               <option value="Open">Open</option>
+               <option value="In-Progress">In-Progress</option>
+               <option value="Close">close</option>
+               </select>
+     
+        <BR>&nbsp;<BR><input id="r1" type="radio" value="update" name="action" CHECKED>Update<br />
+        <input id="r2" type="radio" value="delete" name="action" CHECKED>Delete<br />
+        
+         <input type="submit"  value="Submit"/>
+        
+      </form>
+        <p>OR</p>
+        <a href="/">Add more issues</a>
+      </center>
+
+
+      </body>
+</html>
